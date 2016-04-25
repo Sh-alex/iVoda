@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="listWater">
+        <item>Остреч</item>
+        <item>Миргородська</item>
+        <item>Шестаківська</item>
+        <item>Vesna</item>
+        <item>Bonaqua</item>
+        <item>Borjomi</item>
+    </string-array>
+
+    <string-array name="listCooler">
+        <item>Samsung</item>
+        <item>LG</item>
+    </string-array>
+</resources>

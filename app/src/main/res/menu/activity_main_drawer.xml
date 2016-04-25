@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_products"
+            android:title="Продукция" />
+        <item
+            android:id="@+id/nav_basket"
+            android:title="Корзина" />
+        <item
+            android:id="@+id/nav_authorization"
+            android:title="Авторизация" />
+        <item
+            android:id="@+id/nav_about"
+            android:title="О приложении" />
+    </group>
+
+</menu>
