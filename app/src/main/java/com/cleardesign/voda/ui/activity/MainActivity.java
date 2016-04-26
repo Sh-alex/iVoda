@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TabHost;
 
 import com.cleardesign.voda.R;
 import com.cleardesign.voda.ui.fragment.MainFragment;
@@ -90,21 +91,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
         transaction.commit();
-        /*// Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_products) {
-            // Handle the camera action
-        } else if (id == R.id.nav_basket) {
-
-        } else if (id == R.id.nav_authorization) {
-
-        } else if (id == R.id.nav_about) {
-
-        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
+
+        int currentTab = tabHost.getCurrentTab();
+
+        outState.putInt("currentTab", currentTab);
+    }
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
+        tabHost.setCurrentTab(savedInstanceState.getInt("currentTab"));
+
     }
 }

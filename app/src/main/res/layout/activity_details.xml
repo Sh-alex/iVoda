@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".ui.activity.DetailsActivity"
+    android:orientation="horizontal"
+    android:weightSum="1">
+
+
+    <ImageView
+        android:layout_width="127dp"
+        android:layout_height="271dp"
+        android:src="@drawable/bottle"
+        android:id="@+id/ivProduct"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/tvNameProduct"
+        android:layout_marginTop="89dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/ivProduct"
+        android:layout_toEndOf="@+id/ivProduct"
+        android:layout_marginLeft="36dp"
+        android:layout_marginStart="36dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        android:id="@+id/minusCountButton"
+        android:layout_marginTop="23dp"
+        android:layout_below="@+id/ivProduct"
+        android:layout_alignLeft="@+id/addToBasket"
+        android:layout_alignStart="@+id/addToBasket" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+"
+        android:id="@+id/plusCountButton"
+        android:layout_alignTop="@+id/tvCount"
+        android:layout_alignRight="@+id/addToBasket"
+        android:layout_alignEnd="@+id/addToBasket" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:id="@+id/textView2"
+        android:layout_alignBottom="@+id/ivProduct"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="1"
+        android:textSize="40sp"
+        android:id="@+id/tvCount"
+        android:layout_alignTop="@+id/minusCountButton"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/addButtonText"
+        android:textAllCaps="false"
+        android:id="@+id/addToBasket"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Итого: 0"
+        android:id="@+id/tvPrice"
+        android:layout_below="@+id/plusCountButton"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Цена: "
+        android:id="@+id/tvProductPrice"
+        android:layout_below="@+id/tvNameProduct"
+        android:layout_alignLeft="@+id/tvNameProduct"
+        android:layout_alignStart="@+id/tvNameProduct" />
+
+</RelativeLayout>

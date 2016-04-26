@@ -57,7 +57,6 @@ public class ListProductsAdapter extends BaseAdapter {
         }
         holder.textView.setText(products.get(position).getName());
 
-       int idR = R.drawable.bottle;
         int id = cotext.getResources().getIdentifier(products.get(position).getImage(), "drawable", "com.cleardesign.voda");
         holder.imageView.setImageResource(id);
         return convertView;

@@ -8,4 +8,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="count_text">Количество бутылей воды:</string>
+    <string name="addButtonText">Добавить в корзину</string>
 </resources>

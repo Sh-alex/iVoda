@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.design.widget.NavigationView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.cleardesign.voda.model.pojo.product.AllProducts;
 import com.cleardesign.voda.model.pojo.product.CoolerProduct;
 import com.cleardesign.voda.model.pojo.product.Product;
 import com.cleardesign.voda.model.pojo.product.WaterProduct;
+import com.cleardesign.voda.ui.activity.DetailsActivity;
 import com.cleardesign.voda.ui.adapter.ListProductsAdapter;
 
 import java.util.ArrayList;
@@ -122,19 +124,20 @@ public class MainFragment extends Fragment implements ListView.OnItemClickListen
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         AllProducts allProducts = AllProducts.getInstance();
-        WaterProduct product = allProducts.getWaterProducts().get(position);
 
-        DetailsFragment detailsFragment = new DetailsFragment();
+        Product product;
+        TabHost tabHost = (TabHost) myFragmentView.findViewById(R.id.tabHost);
+
+        if (tabHost.getCurrentTab() == 0) {
+            product = allProducts.getWaterProducts().get(position);
+        } else {
+            product = allProducts.getCoolerProducts().get(position);
+        }
 
 
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("product", product);
-        detailsFragment.setArguments(bundle);
-
-
-        FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, detailsFragment);
-        transaction.commit();
+        Intent intent = new Intent(getActivity(), DetailsActivity.class);
+        intent.putExtra("product", product);
+        startActivity(intent);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
