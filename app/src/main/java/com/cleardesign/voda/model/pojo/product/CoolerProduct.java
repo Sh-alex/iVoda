@@ -5,15 +5,40 @@ import android.os.Parcelable;
 
 public class CoolerProduct extends Product {
 
-    public CoolerProduct() {
 
-    }
     public CoolerProduct(String name, Double price, String image) {
+       super(name, price, image);
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public Double getPrice() {
+        return price;
+    }
+
+    @Override
+    public void setPrice(Double price) {
         this.price = price;
+    }
+
+    @Override
+    public String getImage() {
+        return image;
+    }
+
+    @Override
+    public void setImage(String image) {
         this.image = image;
     }
-
 
     @Override
     public int describeContents() {
@@ -40,8 +65,6 @@ public class CoolerProduct extends Product {
 
     // example constructor that takes a Parcel and gives you an object populated with it's values
     private CoolerProduct(Parcel in) {
-        name = in.readString();
-        price = in.readDouble();
-        image = in.readString();
+       super(in);
     }
 }

@@ -5,16 +5,39 @@ import android.os.Parcelable;
 
 public class WaterProduct extends Product {
 
-    public WaterProduct() {
-
+       public WaterProduct(String name, Double price, String image) {
+        super(name, price, image);
     }
-    public WaterProduct(String name, Double price, String image) {
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public Double getPrice() {
+        return price;
+    }
+
+    @Override
+    public void setPrice(Double price) {
         this.price = price;
+    }
+
+    @Override
+    public String getImage() {
+        return image;
+    }
+
+    @Override
+    public void setImage(String image) {
         this.image = image;
     }
-
-
 
     @Override
     public int describeContents() {
@@ -41,8 +64,6 @@ public class WaterProduct extends Product {
 
     // example constructor that takes a Parcel and gives you an object populated with it's values
     private WaterProduct(Parcel in) {
-        name = in.readString();
-        price = in.readDouble();
-        image = in.readString();
+        super(in);
     }
 }

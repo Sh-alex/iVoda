@@ -23,7 +23,6 @@ public class ListProductsAdapter extends BaseAdapter {
         ImageView imageView;
         TextView textView;
 
-
     }
 
     public ListProductsAdapter(Context context, List<? extends Product> products) {

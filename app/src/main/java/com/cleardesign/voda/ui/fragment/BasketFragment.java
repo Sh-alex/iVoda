@@ -1,14 +1,26 @@
 package com.cleardesign.voda.ui.fragment;
 
-import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.cleardesign.voda.R;
+import com.cleardesign.voda.model.pojo.basket.Basket;
+import com.cleardesign.voda.ui.adapter.BasketText;
+import com.cleardesign.voda.model.pojo.product.Product;
+import com.cleardesign.voda.ui.adapter.BasketAdapter;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,8 +37,7 @@ public class BasketFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private View myFragmentView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -55,18 +66,56 @@ public class BasketFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_basket, container, false);
+        myFragmentView = inflater.inflate(R.layout.fragment_basket, container, false);
+
+        final Basket basket = Basket.getInstance();
+        basket.readProductInBasketFromFile(getActivity().getBaseContext());
+
+
+        ListView lvBasket = (ListView) myFragmentView.findViewById(R.id.lvBasket);
+
+        ArrayList<BasketText> objects = new ArrayList<>();
+        for (Map.Entry<Product, Integer> entry : basket.getProductInBasket().entrySet()) {
+            BasketText basketText = new BasketText(entry.getKey().getName(), "Количество (штук): " + entry.getValue().toString(), entry.getKey().getImage());
+            objects.add(basketText);
+        }
+
+
+        BasketAdapter basketAdapter = new BasketAdapter(getActivity().getBaseContext(), objects);
+        lvBasket.setAdapter(basketAdapter);
+
+        TextView allPrice = (TextView) myFragmentView.findViewById(R.id.tvAllPrice);
+        allPrice.setText("Итого: " + basket.calcAllPrice());
+
+        Button confirmOrderButton = (Button) myFragmentView.findViewById(R.id.confirmOrderButton);
+        confirmOrderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String text = "";
+                for (Map.Entry<Product, Integer> entry : basket.getProductInBasket().entrySet()) {
+                    text += entry.getKey().getName() + ": " + entry.getValue() + ";\n";
+                }
+                text += "Итого: " + basket.calcAllPrice();
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.setType("text/plain");
+                emailIntent.putExtra(Intent.EXTRA_EMAIL  , new String[]{"shevchenko.olexandr96@gmail.com"});
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Заказ");
+                emailIntent.putExtra(Intent.EXTRA_TEXT   , text);
+                startActivity(emailIntent);
+            }
+        });
+
+        return myFragmentView;
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -75,7 +124,7 @@ public class BasketFragment extends Fragment {
         }
     }
 
-    @Override
+    /*@Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
@@ -84,7 +133,7 @@ public class BasketFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-    }
+    }*/
 
     @Override
     public void onDetach() {

@@ -1,6 +1,7 @@
 package com.cleardesign.voda.ui.activity;
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -10,15 +11,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import com.cleardesign.voda.R;
+import com.cleardesign.voda.model.pojo.basket.Basket;
+import com.cleardesign.voda.model.pojo.product.Product;
+import com.cleardesign.voda.ui.adapter.BasketAdapter;
+import com.cleardesign.voda.ui.adapter.BasketText;
+import com.cleardesign.voda.ui.fragment.BasketFragment;
 import com.cleardesign.voda.ui.fragment.MainFragment;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     FragmentTransaction transaction;
     MainFragment mainFragment;
+    BasketFragment basketFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +54,53 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.getMenu().getItem(0).setChecked(true);
 
         mainFragment = new MainFragment();
+        basketFragment = new BasketFragment();
 
         transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, mainFragment).commit();
+
+        Intent intent = getIntent();
+        String basket = intent.getStringExtra("fragment");
+
+        if (basket == null) {
+            transaction.replace(R.id.container, mainFragment).commit();
+
+        } else {
+            transaction.replace(R.id.container, basketFragment).commit();
+            navigationView.getMenu().getItem(1).setChecked(true);
+        }
 
 
+    }
+    public void myClickHandler(View v) {
+        //get the row the clicked button is in
+        LinearLayout vwParentRow = (LinearLayout) v.getParent();
 
+        LinearLayout vwParentCol = (LinearLayout) vwParentRow.getChildAt(1);
+        TextView tw = (TextView) vwParentCol.getChildAt(0);
+
+
+        Basket basket = Basket.getInstance();
+        basket.readProductInBasketFromFile(getBaseContext());
+        basket.removeProductByName(tw.getText().toString());
+        basket.writeProductInBasketToFile(getBaseContext(), getParent());
+
+        ListView lvBasket = (ListView) findViewById(R.id.lvBasket);
+
+        ArrayList<BasketText> objects = new ArrayList<>();
+        for (Map.Entry<Product, Integer> entry : basket.getProductInBasket().entrySet()) {
+            BasketText basketText = new BasketText(entry.getKey().getName(), "Количество (штук): " + entry.getValue().toString(), entry.getKey().getImage());
+            objects.add(basketText);
+        }
+
+
+        BasketAdapter basketAdapter = new BasketAdapter(getBaseContext(), objects);
+        lvBasket.setAdapter(basketAdapter);
+
+        TextView allPrice = (TextView) findViewById(R.id.tvAllPrice);
+        allPrice.setText("Итого: " + basket.calcAllPrice());
+
+
+        vwParentRow.refreshDrawableState();
     }
 
     @Override
@@ -89,6 +144,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_products:
                 transaction.replace(R.id.container, mainFragment);
                 break;
+            case R.id.nav_basket:
+                transaction.replace(R.id.container, basketFragment);
+                break;
         }
         transaction.commit();
 
@@ -101,14 +159,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onSaveInstanceState(outState);
         TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
 
-        int currentTab = tabHost.getCurrentTab();
+        int currentTab = 0;
+        try {
+            currentTab = tabHost.getCurrentTab();
+            outState.putInt("currentTab", currentTab);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        outState.putInt("currentTab", currentTab);
     }
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
-        tabHost.setCurrentTab(savedInstanceState.getInt("currentTab"));
+        try {
+            tabHost.setCurrentTab(savedInstanceState.getInt("currentTab"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 }

@@ -1,13 +1,40 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="fill_parent"
+android:paddingBottom="@dimen/activity_vertical_margin"
+android:paddingLeft="@dimen/activity_horizontal_margin"
+android:paddingRight="@dimen/activity_horizontal_margin"
+android:paddingTop="@dimen/activity_vertical_margin"
+tools:context="com.cleardesign.voda.ui.fragment.BasketFragment"
+android:orientation="vertical"
+android:weightSum="1">
+
+<ListView
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.cleardesign.voda.ui.fragment.BasketFragment">
+    android:layout_height="300dp"
+    android:layout_gravity="center_horizontal"
+    android:layout_above="@+id/tvAllPrice"
+    android:layout_alignParentTop="true"
+    android:id="@+id/lvBasket" />
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="New Text"
+    android:id="@+id/tvAllPrice"
+    android:layout_gravity="center_horizontal"
+    android:gravity="bottom"
+    android:layout_above="@+id/confirmOrderButton"
+    android:layout_centerHorizontal="true" />
 
-</FrameLayout>
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Подтвердить заказ"
+    android:id="@+id/confirmOrderButton"
+    android:layout_gravity="center_horizontal"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true" />
+</RelativeLayout>
