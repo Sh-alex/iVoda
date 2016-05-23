@@ -39,8 +39,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/icon_delete"
         android:clickable="true"
-        android:onClick="myClickHandler" />
-
-    <!--android:background="@null"-->
+        android:onClick="myClickHandler"
+        android:background="@null"/>
 
 </LinearLayout>

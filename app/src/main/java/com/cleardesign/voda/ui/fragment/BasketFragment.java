@@ -31,12 +31,7 @@ import java.util.Map;
  * create an instance of this fragment.
  */
 public class BasketFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private View myFragmentView;
 
     private OnFragmentInteractionListener mListener;
@@ -56,10 +51,7 @@ public class BasketFragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static BasketFragment newInstance(String param1, String param2) {
         BasketFragment fragment = new BasketFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -93,6 +85,7 @@ public class BasketFragment extends Fragment {
 
         TextView allPrice = (TextView) myFragmentView.findViewById(R.id.tvAllPrice);
         allPrice.setText("Итого: " + basket.calcAllPrice());
+
 
         Button confirmOrderButton = (Button) myFragmentView.findViewById(R.id.confirmOrderButton);
         confirmOrderButton.setOnClickListener(new View.OnClickListener() {
@@ -141,16 +134,7 @@ public class BasketFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

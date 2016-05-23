@@ -24,6 +24,7 @@ import com.cleardesign.voda.ui.adapter.BasketAdapter;
 import com.cleardesign.voda.ui.adapter.BasketText;
 import com.cleardesign.voda.ui.fragment.BasketFragment;
 import com.cleardesign.voda.ui.fragment.MainFragment;
+import com.cleardesign.voda.ui.fragment.UserFragment;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentTransaction transaction;
     MainFragment mainFragment;
     BasketFragment basketFragment;
+    UserFragment userFragment;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,29 +51,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        navigationView.getMenu().getItem(0).setChecked(true);
 
         mainFragment = new MainFragment();
         basketFragment = new BasketFragment();
-
-        transaction = getFragmentManager().beginTransaction();
-
-        Intent intent = getIntent();
-        String basket = intent.getStringExtra("fragment");
-
-        if (basket == null) {
-            transaction.replace(R.id.container, mainFragment).commit();
-
-        } else {
-            transaction.replace(R.id.container, basketFragment).commit();
-            navigationView.getMenu().getItem(1).setChecked(true);
-        }
+        userFragment = new UserFragment();
 
 
     }
+
     public void myClickHandler(View v) {
         //get the row the clicked button is in
         LinearLayout vwParentRow = (LinearLayout) v.getParent();
@@ -117,7 +108,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        transaction = getFragmentManager().beginTransaction();
+        MenuItem item;
+        for (int i = 0; i <= 4; i++) {
+            if (i == 4) {
+                navigationView.getMenu().getItem(0).setChecked(true);
+                transaction.replace(R.id.container, mainFragment);
+                transaction.commit();
+                break;
+            }
+            item = navigationView.getMenu().getItem(i);
+            if (item.isChecked()) {
+                switch (item.getItemId()) {
+                    case R.id.nav_products:
+                        transaction.replace(R.id.container, mainFragment);
+                        break;
+                    case R.id.nav_basket:
+                        transaction.replace(R.id.container, basketFragment);
+                        break;
+                    case R.id.nav_authorization:
+                        transaction.replace(R.id.container, userFragment);
+                        break;
+                }
+                transaction.commit();
+                break;
+            }
+
+        }
         return true;
+
+
     }
 
     @Override
@@ -140,12 +161,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
 
         transaction = getFragmentManager().beginTransaction();
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.nav_products:
                 transaction.replace(R.id.container, mainFragment);
                 break;
             case R.id.nav_basket:
                 transaction.replace(R.id.container, basketFragment);
+                break;
+            case R.id.nav_authorization:
+                transaction.replace(R.id.container, userFragment);
                 break;
         }
         transaction.commit();
@@ -160,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
 
         int currentTab = 0;
+
         try {
             currentTab = tabHost.getCurrentTab();
             outState.putInt("currentTab", currentTab);
@@ -168,11 +193,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
     }
+
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
+
         try {
             tabHost.setCurrentTab(savedInstanceState.getInt("currentTab"));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
