@@ -2,6 +2,7 @@ package com.cleardesign.voda.ui.activity;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -34,6 +35,7 @@ public class DetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_details);
 
         Intent intent = getIntent();
@@ -66,6 +68,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     private View.OnClickListener btListener = new View.OnClickListener() {
         public void onClick(View v) {
+
             Integer count;
             Double allPrice;
             switch (v.getId()) {
@@ -96,6 +99,7 @@ public class DetailsActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra("fragment", "basket");
                     startActivity(intent);
+
                     break;
             }
         }
