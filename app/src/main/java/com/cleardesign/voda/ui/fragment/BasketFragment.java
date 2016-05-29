@@ -8,13 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cleardesign.voda.R;
 import com.cleardesign.voda.model.pojo.basket.Basket;
+import com.cleardesign.voda.model.pojo.user.User;
 import com.cleardesign.voda.ui.adapter.BasketText;
 import com.cleardesign.voda.model.pojo.product.Product;
 import com.cleardesign.voda.ui.adapter.BasketAdapter;
@@ -91,8 +90,9 @@ public class BasketFragment extends Fragment {
         confirmOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                User user = User.getInstance();
                 String text = "";
+                text += user.getFio() + "\n" + user.getAddress()+ "\n" + user.getPhone() + "\n" + user.getEmail() + "\n";
                 for (Map.Entry<Product, Integer> entry : basket.getProductInBasket().entrySet()) {
                     text += entry.getKey().getName() + ": " + entry.getValue() + ";\n";
                 }

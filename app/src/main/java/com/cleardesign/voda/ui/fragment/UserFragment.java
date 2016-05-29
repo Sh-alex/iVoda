@@ -1,6 +1,5 @@
 package com.cleardesign.voda.ui.fragment;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -65,14 +64,14 @@ public class UserFragment extends Fragment {
         user.readUserFromFile(getActivity().getBaseContext());
 
         File file = getActivity().getBaseContext().getFileStreamPath(FILE_NAME);
+        userName = (EditText) myFragmentView.findViewById(R.id.userName);
+        userEmail = (EditText) myFragmentView.findViewById(R.id.userEmail);
+        userAddress = (EditText) myFragmentView.findViewById(R.id.userAddress);
+        userPhone = (EditText) myFragmentView.findViewById(R.id.userPhone);
         if (file.exists()) {
-            userName = (EditText) myFragmentView.findViewById(R.id.userName);
             userName.setText(user.getFio());
-            userEmail = (EditText) myFragmentView.findViewById(R.id.userEmail);
             userEmail.setText(user.getEmail());
-            userAddress = (EditText) myFragmentView.findViewById(R.id.userAddress);
             userAddress.setText(user.getAddress());
-            userPhone = (EditText) myFragmentView.findViewById(R.id.userPhone);
             userPhone.setText(user.getPhone());
         }
 
@@ -80,6 +79,7 @@ public class UserFragment extends Fragment {
         btSaveUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 user.setFio(userName.getText().toString());
                 user.setEmail(userEmail.getText().toString());
                 user.setAddress(userAddress.getText().toString());

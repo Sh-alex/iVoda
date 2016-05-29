@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="@drawable/main_back"
+    android:background="@drawable/main_back_land"
     android:orientation="vertical"
     android:weightSum="1"
     tools:context="com.cleardesign.voda.ui.fragment.BasketFragment">
