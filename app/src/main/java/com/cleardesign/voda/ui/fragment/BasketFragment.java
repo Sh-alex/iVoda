@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cleardesign.voda.R;
 import com.cleardesign.voda.model.pojo.basket.Basket;
@@ -91,18 +92,29 @@ public class BasketFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 User user = User.getInstance();
-                String text = "";
-                text += user.getFio() + "\n" + user.getAddress()+ "\n" + user.getPhone() + "\n" + user.getEmail() + "\n";
-                for (Map.Entry<Product, Integer> entry : basket.getProductInBasket().entrySet()) {
-                    text += entry.getKey().getName() + ": " + entry.getValue() + ";\n";
+                user.readUserFromFile(getActivity().getBaseContext());
+
+                if (!basket.getProductInBasket().isEmpty()) {
+                    String text = "";
+                    text += user.getFio() + "\n" + user.getAddress() + "\n" + user.getPhone() + "\n" + user.getEmail() + "\n";
+                    for (Map.Entry<Product, Integer> entry : basket.getProductInBasket().entrySet()) {
+                        text += entry.getKey().getName() + ": " + entry.getValue() + ";\n";
+                    }
+                    text += "Итого: " + basket.calcAllPrice();
+                    //basket.getProductInBasket().clear();
+
+                    final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+
+                    emailIntent.setType("plain/text");
+                    emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"shevchenko.olexandr96@gmail.com"});
+                    emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Заказ");
+                    emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, text);
+
+                    startActivity(Intent.createChooser(emailIntent, "Отправка заказа..."));
+                } else {
+                    Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Корзина пуста", Toast.LENGTH_SHORT);
+                    toast.show();
                 }
-                text += "Итого: " + basket.calcAllPrice();
-                Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                emailIntent.setType("text/plain");
-                emailIntent.putExtra(Intent.EXTRA_EMAIL  , new String[]{"shevchenko.olexandr96@gmail.com"});
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Заказ");
-                emailIntent.putExtra(Intent.EXTRA_TEXT   , text);
-                startActivity(emailIntent);
             }
         });
 

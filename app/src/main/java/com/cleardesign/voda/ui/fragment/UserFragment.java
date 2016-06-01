@@ -80,13 +80,20 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                user.setFio(userName.getText().toString());
-                user.setEmail(userEmail.getText().toString());
-                user.setAddress(userAddress.getText().toString());
-                user.setPhone(userPhone.getText().toString());
-                user.writeUserToFile(getActivity().getBaseContext(), getActivity());
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Изменения сохранены", Toast.LENGTH_SHORT);
-                toast.show();
+                if (!userName.getText().toString().equals("")  && !userEmail.getText().toString().equals("") &&
+                        !userAddress.getText().toString().equals("") && !userPhone.getText().toString().equals("")) {
+                    user.setFio(userName.getText().toString());
+                    user.setEmail(userEmail.getText().toString());
+                    user.setAddress(userAddress.getText().toString());
+                    user.setPhone(userPhone.getText().toString());
+                    user.writeUserToFile(getActivity().getBaseContext(), getActivity());
+                    Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Изменения сохранены", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else {
+                    Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Пожалуйста, заполните все поля", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
         });
         return myFragmentView;

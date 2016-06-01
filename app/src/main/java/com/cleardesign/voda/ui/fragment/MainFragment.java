@@ -80,6 +80,7 @@ public class MainFragment extends Fragment implements ListView.OnItemClickListen
         tabSpec.setIndicator("Вода");
         tabHost.addTab(tabSpec);
 
+
         tabSpec = tabHost.newTabSpec("Coolers");
         tabSpec.setContent(R.id.coolersTab);
         tabSpec.setIndicator("Куллеры");

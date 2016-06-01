@@ -26,7 +26,8 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:gravity="bottom"
-        android:text="New Text" />
+        android:text="New Text"
+        android:textColor="@android:color/white" />
 
     <Button
         android:id="@+id/confirmOrderButton"

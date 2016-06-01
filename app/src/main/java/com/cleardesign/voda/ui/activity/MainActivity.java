@@ -2,6 +2,7 @@ package com.cleardesign.voda.ui.activity;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -59,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         basketFragment = new BasketFragment();
         userFragment = new UserFragment();
 
-
     }
 
     public void myClickHandler(View v) {
@@ -107,10 +107,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
 
         transaction = getFragmentManager().beginTransaction();
         MenuItem item;
+
         for (int i = 0; i <= 4; i++) {
             if (i == 4) {
                 navigationView.getMenu().getItem(0).setChecked(true);
@@ -149,9 +149,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
 
         return super.onOptionsItemSelected(item);
     }

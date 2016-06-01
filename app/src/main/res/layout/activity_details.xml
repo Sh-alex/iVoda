@@ -31,7 +31,8 @@
         android:layout_toRightOf="@+id/ivProduct"
         android:layout_toEndOf="@+id/ivProduct"
         android:layout_marginLeft="36dp"
-        android:layout_marginStart="36dp" />
+        android:layout_marginStart="36dp"
+        android:textColor="@android:color/white" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -57,21 +58,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text=""
-        android:id="@+id/textView2"
-        android:layout_alignBottom="@+id/ivProduct"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="1"
         android:textSize="40sp"
         android:id="@+id/tvCount"
         android:layout_alignTop="@+id/minusCountButton"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white" />
 
     <Button
         android:layout_width="wrap_content"
@@ -88,7 +81,8 @@
         android:text="Итого: 0"
         android:id="@+id/tvPrice"
         android:layout_below="@+id/plusCountButton"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -97,6 +91,7 @@
         android:id="@+id/tvProductPrice"
         android:layout_below="@+id/tvNameProduct"
         android:layout_alignLeft="@+id/tvNameProduct"
-        android:layout_alignStart="@+id/tvNameProduct" />
+        android:layout_alignStart="@+id/tvNameProduct"
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>
