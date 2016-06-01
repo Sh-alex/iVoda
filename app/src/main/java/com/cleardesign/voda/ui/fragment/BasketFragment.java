@@ -103,14 +103,15 @@ public class BasketFragment extends Fragment {
                     text += "Итого: " + basket.calcAllPrice();
                     //basket.getProductInBasket().clear();
 
-                    final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+                    final Intent emailIntent = new Intent(Intent.ACTION_VIEW);
+                    emailIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
 
                     emailIntent.setType("plain/text");
                     emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"shevchenko.olexandr96@gmail.com"});
                     emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Заказ");
                     emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, text);
 
-                    startActivity(Intent.createChooser(emailIntent, "Отправка заказа..."));
+                    startActivity(emailIntent);
                 } else {
                     Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Корзина пуста", Toast.LENGTH_SHORT);
                     toast.show();
