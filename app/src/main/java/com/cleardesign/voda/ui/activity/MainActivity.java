@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+
         TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
 
         int currentTab = 0;

@@ -19,6 +19,7 @@ import com.cleardesign.voda.ui.adapter.BasketText;
 import com.cleardesign.voda.model.pojo.product.Product;
 import com.cleardesign.voda.ui.adapter.BasketAdapter;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -91,29 +92,36 @@ public class BasketFragment extends Fragment {
         confirmOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                User user = User.getInstance();
-                user.readUserFromFile(getActivity().getBaseContext());
+                File file = getActivity().getBaseContext().getFileStreamPath("user");
+                if (file.exists()) {
+                    User user = User.getInstance();
+                    user.readUserFromFile(getActivity().getBaseContext());
 
-                if (!basket.getProductInBasket().isEmpty()) {
-                    String text = "";
-                    text += user.getFio() + "\n" + user.getAddress() + "\n" + user.getPhone() + "\n" + user.getEmail() + "\n";
-                    for (Map.Entry<Product, Integer> entry : basket.getProductInBasket().entrySet()) {
-                        text += entry.getKey().getName() + ": " + entry.getValue() + ";\n";
+                    if (!basket.getProductInBasket().isEmpty()) {
+                        String text = "";
+                        text += user.getFio() + "\n" + user.getAddress() + "\n" + user.getPhone() + "\n" + user.getEmail() + "\n";
+                        for (Map.Entry<Product, Integer> entry : basket.getProductInBasket().entrySet()) {
+                            text += entry.getKey().getName() + ": " + entry.getValue() + ";\n";
+                        }
+                        text += "Итого: " + basket.calcAllPrice();
+                        //basket.getProductInBasket().clear();
+
+                        final Intent emailIntent = new Intent(Intent.ACTION_VIEW);
+                        emailIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
+
+                        emailIntent.setType("plain/text");
+                        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"shevchenko.olexandr96@gmail.com"});
+                        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Заказ");
+                        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, text);
+
+                        startActivity(emailIntent);
+                    } else {
+                        Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Корзина пуста", Toast.LENGTH_SHORT);
+                        toast.show();
                     }
-                    text += "Итого: " + basket.calcAllPrice();
-                    //basket.getProductInBasket().clear();
-
-                    final Intent emailIntent = new Intent(Intent.ACTION_VIEW);
-                    emailIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
-
-                    emailIntent.setType("plain/text");
-                    emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"shevchenko.olexandr96@gmail.com"});
-                    emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Заказ");
-                    emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, text);
-
-                    startActivity(emailIntent);
-                } else {
-                    Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Корзина пуста", Toast.LENGTH_SHORT);
+                }
+                else{
+                    Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Вы не авторизованы", Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }
