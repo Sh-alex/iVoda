@@ -23,6 +23,7 @@ import com.cleardesign.voda.model.pojo.basket.Basket;
 import com.cleardesign.voda.model.pojo.product.Product;
 import com.cleardesign.voda.ui.adapter.BasketAdapter;
 import com.cleardesign.voda.ui.adapter.BasketText;
+import com.cleardesign.voda.ui.fragment.AboutFragment;
 import com.cleardesign.voda.ui.fragment.BasketFragment;
 import com.cleardesign.voda.ui.fragment.MainFragment;
 import com.cleardesign.voda.ui.fragment.UserFragment;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     BasketFragment basketFragment;
     UserFragment userFragment;
     NavigationView navigationView;
+    AboutFragment aboutFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mainFragment = new MainFragment();
         basketFragment = new BasketFragment();
         userFragment = new UserFragment();
+        aboutFragment = new AboutFragment();
 
     }
 
@@ -130,6 +133,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     case R.id.nav_authorization:
                         transaction.replace(R.id.container, userFragment);
                         break;
+                    case R.id.nav_about:
+                        transaction.replace(R.id.container, aboutFragment);
+                        break;
                 }
                 transaction.commit();
                 break;
@@ -168,6 +174,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_authorization:
                 transaction.replace(R.id.container, userFragment);
+                break;
+            case R.id.nav_about:
+                transaction.replace(R.id.container, aboutFragment);
                 break;
         }
         transaction.commit();
