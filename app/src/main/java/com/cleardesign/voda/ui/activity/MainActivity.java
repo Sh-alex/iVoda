@@ -29,6 +29,7 @@ import com.cleardesign.voda.ui.fragment.MainFragment;
 import com.cleardesign.voda.ui.fragment.UserFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -81,8 +82,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ListView lvBasket = (ListView) findViewById(R.id.lvBasket);
 
         ArrayList<BasketText> objects = new ArrayList<>();
-        for (Map.Entry<Product, Integer> entry : basket.getProductInBasket().entrySet()) {
-            BasketText basketText = new BasketText(entry.getKey().getName(), "Количество (штук): " + entry.getValue().toString(), entry.getKey().getImage());
+        for (Map.Entry<Product, List<Integer>> entry : basket.getProductInBasket().entrySet()) {
+            BasketText basketText = new BasketText(entry.getKey().getName(), "Количество (штук): " + entry.getValue().get(0).toString(), "Сдать тару (штук): " + entry.getValue().get(1).toString(), entry.getKey().getImage());
             objects.add(basketText);
         }
 

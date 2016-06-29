@@ -16,7 +16,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -30,21 +32,21 @@ public class Basket {
     private Basket() {
     }
 
-    private Map<Product, Integer> productInBasket = new HashMap<>();
+    private Map<Product, List<Integer>> productInBasket = new HashMap<>();
 
-    public Map<Product, Integer> getProductInBasket() {
+    public Map<Product, List<Integer>> getProductInBasket() {
         return productInBasket;
     }
 
-    public void setProductInBasket(Map<Product, Integer> productInBasket) {
+    public void setProductInBasket(Map<Product, List<Integer>> productInBasket) {
         this.productInBasket = productInBasket;
     }
 
 
     public void removeProductByName(String name) {
         Product productRemove = null;
-        for (Map.Entry<Product, Integer> entry : this.getProductInBasket().entrySet()) {
-            if(entry.getKey().getName().equals(name)){
+        for (Map.Entry<Product, List<Integer>> entry : this.getProductInBasket().entrySet()) {
+            if (entry.getKey().getName().equals(name)) {
                 productRemove = entry.getKey();
                 break;
             }
@@ -54,18 +56,21 @@ public class Basket {
 
     }
 
+
     public Double calcAllPrice() {
         Double allPrice = 0.0;
-        for (Map.Entry<Product, Integer> entry : this.getProductInBasket().entrySet()) {
-           allPrice += entry.getKey().getPrice()*entry.getValue();
+        for (Map.Entry<Product, List<Integer>> entry : this.getProductInBasket().entrySet()) {
+            allPrice += entry.getKey().getPrice() * entry.getValue().get(0) - entry.getValue().get(1) * entry.getKey().getPrice() / 2;
         }
         return allPrice;
     }
 
-    public void addProductInBasket(Product product, Integer count) {
+    public void addProductInBasket(Product product, Integer count, Integer countBack) {
         boolean flag = true;
-        int currentCount = 0;
         Product productRemove = null;
+        List<Integer> listCount = new ArrayList<>();
+        listCount.add(count);
+        listCount.add(countBack);
         for (Product pr : productInBasket.keySet()) {
             if (pr.getName().equals(product.getName())) {
                 flag = false;
@@ -73,17 +78,17 @@ public class Basket {
             }
         }
         if (flag) {
-            this.getProductInBasket().put(product, count);
+
+            this.getProductInBasket().put(product, listCount);
         } else {
-            for (Map.Entry<Product, Integer> entry : productInBasket.entrySet()) {
+            for (Map.Entry<Product, List<Integer>> entry : productInBasket.entrySet()) {
                 if (entry.getKey().getName().equals(product.getName())) {
                     productRemove = entry.getKey();
-                    currentCount = entry.getValue();
                 }
             }
 
             this.getProductInBasket().remove(productRemove);
-            this.getProductInBasket().put(product, count + currentCount);
+            this.getProductInBasket().put(product, listCount);
         }
     }
 
@@ -105,9 +110,9 @@ public class Basket {
             String json = sb.toString();
 
             //TODO: TypeToken<Map<WaterProduct, Integer>>()
-            Type itemsMapType = new TypeToken<Map<WaterProduct, Integer>>() {
+            Type itemsMapType = new TypeToken<Map<WaterProduct, List<Integer>>>() {
             }.getType();
-            Map<Product, Integer> map = new Gson().fromJson(json, itemsMapType);
+            Map<Product, List<Integer>> map = new Gson().fromJson(json, itemsMapType);
 
             this.setProductInBasket(map);
         } catch (FileNotFoundException e) {

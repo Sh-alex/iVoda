@@ -33,6 +33,13 @@
             android:text="New Text"
             android:id="@+id/countWater"
             android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvCountBottleBackBasket"
+            android:text="Text"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
     <ImageButton

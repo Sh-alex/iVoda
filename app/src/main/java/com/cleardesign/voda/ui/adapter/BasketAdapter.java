@@ -25,6 +25,7 @@ public class BasketAdapter extends BaseAdapter {
     private class ViewHolder {
         TextView textItem;
         TextView countWater;
+        TextView tvCountBottleBackBasket;
         ImageView ivProduct;
 
     }
@@ -54,6 +55,7 @@ public class BasketAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.rowbasket, null);
             holder.textItem = (TextView) convertView.findViewById(R.id.textItem);
             holder.countWater = (TextView) convertView.findViewById(R.id.countWater);
+            holder.tvCountBottleBackBasket = (TextView) convertView.findViewById(R.id.tvCountBottleBackBasket);
             holder.ivProduct = (ImageView) convertView.findViewById(R.id.ivProduct);
             convertView.setTag(holder);
         } else {
@@ -61,6 +63,7 @@ public class BasketAdapter extends BaseAdapter {
         }
         holder.textItem.setText(objects.get(position).getTextItem());
         holder.countWater.setText(objects.get(position).getCountWater());
+        holder.tvCountBottleBackBasket.setText(objects.get(position).getTvCountBottleBackBasket());
 
         int id = cotext.getResources().getIdentifier(objects.get(position).getIvProduct(), "drawable", "com.cleardesign.voda");
         holder.ivProduct.setImageResource(id);

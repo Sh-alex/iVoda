@@ -21,6 +21,7 @@ import com.cleardesign.voda.ui.adapter.BasketAdapter;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -75,8 +76,8 @@ public class BasketFragment extends Fragment {
         ListView lvBasket = (ListView) myFragmentView.findViewById(R.id.lvBasket);
 
         ArrayList<BasketText> objects = new ArrayList<>();
-        for (Map.Entry<Product, Integer> entry : basket.getProductInBasket().entrySet()) {
-            BasketText basketText = new BasketText(entry.getKey().getName(), "Количество (штук): " + entry.getValue().toString(), entry.getKey().getImage());
+        for (Map.Entry<Product, List<Integer>> entry : basket.getProductInBasket().entrySet()) {
+            BasketText basketText = new BasketText(entry.getKey().getName(), "Количество (штук): " + entry.getValue().get(0).toString(), "Сдать тару (штук): " + entry.getValue().get(1).toString(), entry.getKey().getImage());
             objects.add(basketText);
         }
 
@@ -100,8 +101,8 @@ public class BasketFragment extends Fragment {
                     if (!basket.getProductInBasket().isEmpty()) {
                         String text = "";
                         text += user.getFio() + "\n" + user.getAddress() + "\n" + user.getPhone() + "\n" + user.getEmail() + "\n";
-                        for (Map.Entry<Product, Integer> entry : basket.getProductInBasket().entrySet()) {
-                            text += entry.getKey().getName() + ": " + entry.getValue() + ";\n";
+                        for (Map.Entry<Product, List<Integer>> entry : basket.getProductInBasket().entrySet()) {
+                            text += entry.getKey().getName() + ": " + entry.getValue().get(0) + ";\n";
                         }
                         text += "Итого: " + basket.calcAllPrice();
                         //basket.getProductInBasket().clear();

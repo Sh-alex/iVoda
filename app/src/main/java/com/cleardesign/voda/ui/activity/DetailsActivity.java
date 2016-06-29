@@ -13,6 +13,8 @@ import com.cleardesign.voda.model.pojo.basket.Basket;
 import com.cleardesign.voda.model.pojo.product.Product;
 
 import java.text.DecimalFormat;
+import java.util.List;
+import java.util.Map;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -30,6 +32,7 @@ public class DetailsActivity extends AppCompatActivity {
     Button plusCountButton;
     Button plusCountButtonBack;
     Button addToBasket;
+    Basket basket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +54,26 @@ public class DetailsActivity extends AppCompatActivity {
         tvProductPrice = (TextView) findViewById(R.id.tvProductPrice);
         tvProductPrice.setText("Цена: " + df.format(product.getPrice()));
 
+        basket = Basket.getInstance();
+        basket.readProductInBasketFromFile(getBaseContext());
+        basket.getProductInBasket();
+        List<Integer> prod = null;
+        for (Map.Entry<Product, List<Integer>> entry : basket.getProductInBasket().entrySet()) {
+            if (entry.getKey().getName().equals(product.getName())) {
+                prod = entry.getValue();
+                break;
+            }
+        }
         tvCount = (TextView) findViewById(R.id.tvCount);
+        if (prod != null)
+            tvCount.setText(prod.get(0).toString());
         tvCountBack = (TextView) findViewById(R.id.tvCountBack);
+        if (prod != null)
+            tvCountBack.setText(prod.get(1).toString());
         tvPrice = (TextView) findViewById(R.id.tvPrice);
-        tvPrice.setText("Итого: " + df.format(1 * product.getPrice() - Integer.parseInt(tvCountBack.getText().toString())* product.getPrice()/2));
+
+
+        tvPrice.setText("Итого: " + df.format(Integer.parseInt(tvCount.getText().toString()) * product.getPrice() - Integer.parseInt(tvCountBack.getText().toString()) * product.getPrice() / 2));
 
         minusCountButton = (Button) findViewById(R.id.minusCountButton);
         plusCountButton = (Button) findViewById(R.id.plusCountButton);
@@ -80,12 +99,12 @@ public class DetailsActivity extends AppCompatActivity {
                     if (!tvCount.getText().toString().equals("1")) {
                         count = Integer.parseInt(tvCount.getText().toString()) - 1;
 
-                        if(tvCount.getText().equals(tvCountBack.getText())) {
+                        if (tvCount.getText().equals(tvCountBack.getText())) {
                             tvCountBack.setText(count.toString());
                         }
 
                         tvCount.setText(count.toString());
-                        allPrice = count * product.getPrice() - Integer.parseInt(tvCountBack.getText().toString())* product.getPrice()/2;
+                        allPrice = count * product.getPrice() - Integer.parseInt(tvCountBack.getText().toString()) * product.getPrice() / 2;
                         tvPrice.setText("Итого: " + df.format(allPrice));
                     }
                     break;
@@ -98,7 +117,7 @@ public class DetailsActivity extends AppCompatActivity {
                         }
 
                         tvCount.setText(count.toString());
-                        allPrice = count * product.getPrice() - Integer.parseInt(tvCountBack.getText().toString())* product.getPrice()/2;
+                        allPrice = count * product.getPrice() - Integer.parseInt(tvCountBack.getText().toString()) * product.getPrice() / 2;
                         tvPrice.setText("Итого: " + df.format(allPrice));
                     }
                     break;
@@ -108,7 +127,7 @@ public class DetailsActivity extends AppCompatActivity {
                         tvCountBack.setText(count.toString());
 
                         count = Integer.parseInt(tvCount.getText().toString());
-                        allPrice = count * product.getPrice() - Integer.parseInt(tvCountBack.getText().toString())* product.getPrice()/2;
+                        allPrice = count * product.getPrice() - Integer.parseInt(tvCountBack.getText().toString()) * product.getPrice() / 2;
                         tvPrice.setText("Итого: " + df.format(allPrice));
                     }
                     break;
@@ -119,17 +138,17 @@ public class DetailsActivity extends AppCompatActivity {
                         tvCountBack.setText(count.toString());
 
                         count = Integer.parseInt(tvCount.getText().toString());
-                        allPrice = count * product.getPrice() - Integer.parseInt(tvCountBack.getText().toString())* product.getPrice()/2;
+                        allPrice = count * product.getPrice() - Integer.parseInt(tvCountBack.getText().toString()) * product.getPrice() / 2;
                         tvPrice.setText("Итого: " + df.format(allPrice));
                     }
                     break;
 
                 case R.id.addToBasket:
-                    Basket basket = Basket.getInstance();
+                    basket = Basket.getInstance();
 
-                   basket.readProductInBasketFromFile(getBaseContext());
+                    basket.readProductInBasketFromFile(getBaseContext());
 
-                    basket.addProductInBasket(product, Integer.parseInt(tvCount.getText().toString()));
+                    basket.addProductInBasket(product, Integer.parseInt(tvCount.getText().toString()), Integer.parseInt(tvCountBack.getText().toString()));
 
                     basket.writeProductInBasketToFile(getBaseContext(), getParent());
 
@@ -146,6 +165,7 @@ public class DetailsActivity extends AppCompatActivity {
         outState.putString("count", tvCount.getText().toString());
         outState.putString("all", tvPrice.getText().toString());
     }
+
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         tvCount.setText(savedInstanceState.getString("count"));
