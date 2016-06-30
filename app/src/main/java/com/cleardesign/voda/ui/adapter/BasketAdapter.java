@@ -21,7 +21,6 @@ public class BasketAdapter extends BaseAdapter {
     private final Context cotext;
 
 
-
     private class ViewHolder {
         TextView textItem;
         TextView countWater;
@@ -50,7 +49,7 @@ public class BasketAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
-        if(convertView == null) {
+        if (convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.rowbasket, null);
             holder.textItem = (TextView) convertView.findViewById(R.id.textItem);

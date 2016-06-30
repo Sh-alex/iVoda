@@ -96,6 +96,7 @@
         android:text="Итого: 0"
         android:id="@+id/tvPrice"
         android:textColor="@android:color/white"
+        android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="@+id/tvCountBack"
         app:layout_constraintRight_toRightOf="@+id/tvCountBack"
         app:layout_constraintBottom_toTopOf="@+id/addToBasket"

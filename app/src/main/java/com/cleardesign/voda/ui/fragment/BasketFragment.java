@@ -7,7 +7,9 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 import com.cleardesign.voda.R;
 import com.cleardesign.voda.model.pojo.basket.Basket;
 import com.cleardesign.voda.model.pojo.user.User;
+import com.cleardesign.voda.ui.activity.DetailsActivity;
 import com.cleardesign.voda.ui.adapter.BasketText;
 import com.cleardesign.voda.model.pojo.product.Product;
 import com.cleardesign.voda.ui.adapter.BasketAdapter;
@@ -24,15 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link BasketFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link BasketFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class BasketFragment extends Fragment {
+
+public class BasketFragment extends Fragment implements ListView.OnItemClickListener {
 
     private View myFragmentView;
 
@@ -42,15 +38,7 @@ public class BasketFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BasketFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static BasketFragment newInstance(String param1, String param2) {
         BasketFragment fragment = new BasketFragment();
 
@@ -61,6 +49,7 @@ public class BasketFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
     }
 
     @Override
@@ -69,11 +58,13 @@ public class BasketFragment extends Fragment {
         // Inflate the layout for this fragment
         myFragmentView = inflater.inflate(R.layout.fragment_basket, container, false);
 
+
         final Basket basket = Basket.getInstance();
         basket.readProductInBasketFromFile(getActivity().getBaseContext());
 
 
         ListView lvBasket = (ListView) myFragmentView.findViewById(R.id.lvBasket);
+        lvBasket.setOnItemClickListener(this);
 
         ArrayList<BasketText> objects = new ArrayList<>();
         for (Map.Entry<Product, List<Integer>> entry : basket.getProductInBasket().entrySet()) {
@@ -84,6 +75,8 @@ public class BasketFragment extends Fragment {
 
         BasketAdapter basketAdapter = new BasketAdapter(getActivity().getBaseContext(), objects);
         lvBasket.setAdapter(basketAdapter);
+
+
 
         TextView allPrice = (TextView) myFragmentView.findViewById(R.id.tvAllPrice);
         allPrice.setText("Итого: " + basket.calcAllPrice());
@@ -130,14 +123,33 @@ public class BasketFragment extends Fragment {
 
         return myFragmentView;
     }
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Basket basket = Basket.getInstance();
+        basket.readProductInBasketFromFile(getActivity().getBaseContext());
 
+        Product product = null;
+        int i = 0;
+        for (Map.Entry<Product, List<Integer>> entry : basket.getProductInBasket().entrySet()) {
+            if( i == position) {
+                product = entry.getKey();
+                break;
+            }
+            i++;
+        }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+        Intent intent = new Intent(getActivity(), DetailsActivity.class);
+        intent.putExtra("product", product);
+        startActivity(intent);
+    }
+
+    public void onItemClick(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
     }
+
+
 
     /*@Override
     public void onAttach(Context context) {
@@ -161,4 +173,7 @@ public class BasketFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
+
 }

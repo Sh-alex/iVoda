@@ -1,8 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="horizontal"
     android:weightSum="1">
+
     <ImageView
         android:id="@+id/ivProduct"
         android:layout_width="85dp"
@@ -14,30 +16,31 @@
         android:src="@drawable/bottle" />
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.9">
+        android:layout_weight="0.9"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textItem"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
             android:paddingTop="35dp"
-            android:textColor="@android:color/white" />
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
 
         <TextView
+            android:id="@+id/countWater"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/countWater"
             android:textColor="@android:color/white" />
 
         <TextView
+            android:id="@+id/tvCountBottleBackBasket"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tvCountBottleBackBasket"
             android:text="Text"
             android:textColor="@android:color/white" />
     </LinearLayout>
@@ -46,10 +49,11 @@
         android:id="@+id/deleteProduct"
         android:layout_width="32dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/icon_delete"
-        android:clickable="true"
-        android:onClick="myClickHandler"
         android:background="@null"
-        android:paddingTop="10dp" />
+        android:clickable="true"
+        android:focusable="false"
+        android:onClick="myClickHandler"
+        android:paddingTop="10dp"
+        android:src="@drawable/icon_delete" />
 
 </LinearLayout>
