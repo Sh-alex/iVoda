@@ -7,7 +7,8 @@
     android:background="@drawable/main_back"
     android:orientation="vertical"
     android:weightSum="1"
-    tools:context="com.cleardesign.voda.ui.fragment.BasketFragment">
+    tools:context="com.cleardesign.voda.ui.fragment.BasketFragment"
+    >
 
     <ListView
         android:id="@+id/lvBasket"
@@ -16,6 +17,7 @@
         android:layout_above="@+id/tvAllPrice"
         android:layout_alignParentTop="true"
         android:layout_gravity="center_horizontal"
+        android:descendantFocusability="blocksDescendants"
          />
 
     <TextView
@@ -37,5 +39,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:text="Подтвердить заказ" />
+        android:text="Подтвердить заказ"
+        android:focusable="false"
+        android:focusableInTouchMode="false"/>
 </RelativeLayout>

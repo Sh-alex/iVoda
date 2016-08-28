@@ -23,11 +23,13 @@ import com.cleardesign.voda.model.pojo.basket.Basket;
 import com.cleardesign.voda.model.pojo.product.Product;
 import com.cleardesign.voda.ui.adapter.BasketAdapter;
 import com.cleardesign.voda.ui.adapter.BasketText;
+import com.cleardesign.voda.ui.fragment.AboutFragment;
 import com.cleardesign.voda.ui.fragment.BasketFragment;
 import com.cleardesign.voda.ui.fragment.MainFragment;
 import com.cleardesign.voda.ui.fragment.UserFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     BasketFragment basketFragment;
     UserFragment userFragment;
     NavigationView navigationView;
+    AboutFragment aboutFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mainFragment = new MainFragment();
         basketFragment = new BasketFragment();
         userFragment = new UserFragment();
+        aboutFragment = new AboutFragment();
 
     }
 
@@ -78,8 +82,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ListView lvBasket = (ListView) findViewById(R.id.lvBasket);
 
         ArrayList<BasketText> objects = new ArrayList<>();
-        for (Map.Entry<Product, Integer> entry : basket.getProductInBasket().entrySet()) {
-            BasketText basketText = new BasketText(entry.getKey().getName(), "Количество (штук): " + entry.getValue().toString(), entry.getKey().getImage());
+        for (Map.Entry<Product, List<Integer>> entry : basket.getProductInBasket().entrySet()) {
+            BasketText basketText = new BasketText(entry.getKey().getName(), "Количество (штук): " + entry.getValue().get(0).toString(), "Сдать тару (штук): " + entry.getValue().get(1).toString(), entry.getKey().getImage());
             objects.add(basketText);
         }
 
@@ -130,6 +134,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     case R.id.nav_authorization:
                         transaction.replace(R.id.container, userFragment);
                         break;
+                    case R.id.nav_about:
+                        transaction.replace(R.id.container, aboutFragment);
+                        break;
                 }
                 transaction.commit();
                 break;
@@ -168,6 +175,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_authorization:
                 transaction.replace(R.id.container, userFragment);
+                break;
+            case R.id.nav_about:
+                transaction.replace(R.id.container, aboutFragment);
                 break;
         }
         transaction.commit();
